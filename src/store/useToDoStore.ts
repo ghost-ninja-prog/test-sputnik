@@ -34,23 +34,34 @@ type TodoType = {
 type StoreType = {
     todos: TodoType[],
     loading: boolean,
+    currentPage: number,
+    pageCount: number,
+    totalTodos: number,
     fetchTodos: (page?: number) => void,
     updateTodo: (obj: UpdateData) => void,
     deleteTodo: (id: number) => void,
     addTodo: (obj: AddTodo) => void
 }
 
-export const useTodoStore = create<StoreType>((set) => ({
+export const useTodoStore = create<StoreType>((set, get) => ({
     todos: [],
     loading: false,
-
-    fetchTodos: async () => {
-    
+    currentPage: 1,
+    pageCount: 1,
+    totalTodos: 1,
+    fetchTodos: async (page = 1) => {
+        if (get().loading) {
+            return
+        }
         set({ loading: true })
-        axios(URL)
-            .then(res => set({ todos: res.data.data }) )
+        axios(`${URL}?pagination[pageSize]=5&pagination[page]=${page}`)
+            .then(res => set(state => ({
+                todos: state.todos.concat(res.data.data),
+                currentPage: state.currentPage + 1,
+                totalTodos: res.data.meta.pagination.total,
+                loading: false
+            })))
             .catch(e => console.log(e.message))
-            .finally(() => set({ loading: false }))
     },
 
     addTodo: async (obj) => {

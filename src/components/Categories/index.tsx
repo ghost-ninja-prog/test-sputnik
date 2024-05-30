@@ -11,7 +11,6 @@ export const Categories: React.FC<CategoriesProps> = ({ setSelectedValue }) => {
 
 
     const handlerChange = (e: RadioChangeEvent) => {
-        console.log(e.target.value)
         setSelectedValue(e.target.value)
     }
 

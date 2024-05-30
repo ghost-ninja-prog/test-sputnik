@@ -22,7 +22,6 @@ type TodoItemProps = {
 
 export const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
 
-	console.log(todo[1])
 
 	const { deleteTodo, updateTodo } = useTodoStore(state => state)
 	const { addToFavorites, updateFavotites, removeFromFavorites } = useFavoritesStore(state => state)

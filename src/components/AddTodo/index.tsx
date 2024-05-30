@@ -37,6 +37,7 @@ export const AddTodo: React.FC = () => {
         onChange={(e) => setInputTitle(e.target.value)}
         onPressEnter={createNewTodo}
         style={{ width: '100%' }}
+        maxLength={25}
       />
       <Input
         placeholder='Введите описание'
@@ -44,6 +45,7 @@ export const AddTodo: React.FC = () => {
         onChange={(e) => setInputDesc(e.target.value)}
         onPressEnter={createNewTodo}
         style={{ width: '100%' }}
+        maxLength={70}
 
       />
       <Button 
