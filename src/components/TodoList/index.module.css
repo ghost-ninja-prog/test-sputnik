@@ -1,0 +1,14 @@
+.todoList {
+    width: 500px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 0 0 6px 6px;
+    max-height: 450px;
+    overflow: auto;
+    
+}
+.selectWrap {
+    display: block;
+    background-color: #fff;
+    padding: 0 15px;
+}
