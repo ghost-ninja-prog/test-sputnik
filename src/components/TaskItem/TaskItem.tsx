@@ -3,7 +3,9 @@ import styled from 'styled-components'
 import { Button, Checkbox, Flex, Tooltip } from 'antd'
 import { DeleteOutlined, StarOutlined } from '@ant-design/icons'
 
-import { TaskType } from '../TaskList/TasksList'
+import { TaskType } from '../../store/useTasksStore'
+
+
 
 
 type TaskItemPropsType = {

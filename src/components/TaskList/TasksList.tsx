@@ -1,41 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { TaskItem } from '../TaskItem/TaskItem'
 import styled from 'styled-components'
+import { useTasksStore } from '../../store/useTasksStore'
 
 type TodoListPropsType = {
     selectedCategory: string
-}
-
-export type TaskType = {
-    id: number,
-    attributes: {
-        status: string,
-        title: string,
-        description: string,
-        createdAt: string,
-        updatedAt: string,
-        publishedAt: string
-    }
 }
 
 const TaskList = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 5px;
-
+    height: 300px;
+    overflow-x: auto;
 `
 
 export const TasksList: React.FC<TodoListPropsType> = ({ selectedCategory }) => {
 
-    const [tasks, setTasks] = useState<TaskType[]>([])
+    const { tasks, page, loading, fetchTasks } = useTasksStore(state => state)
 
     useEffect(() => {
-        (async () => {
-            const response = await fetch('https://cms.laurence.host/api/tasks')
-            const fetchTasks = await response.json()
-            setTasks(fetchTasks.data)
-        })()
-    }, [])
+        fetchTasks(page)
+    }, [page])
 
   return (
     <TaskList>
@@ -45,6 +31,7 @@ export const TasksList: React.FC<TodoListPropsType> = ({ selectedCategory }) => 
                 <TaskItem task={task} key={task.id} />
             ))
         }
+        {loading && <p>Loading...</p>}
     </TaskList>
   )
 }
