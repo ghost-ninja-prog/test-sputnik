@@ -16,15 +16,16 @@ export type TaskType = {
     }
 }
 
-export type StoreType = {
-    tasks: TaskType[],
-    loading: boolean,
-    page: number,
-    pageCount: number,
-    totalTasks: number,
-    fetchTasks: (page?: number, pageSize?: number) => void
+export type AddTaskType = {
+    title: string,
+    description: string,
+    status: string
 }
 
+export type CreatedTaskServerType = {
+    data: TaskType,
+    meta: object
+}
 
 type ResponseServerType = {
     data: TaskType[],
@@ -38,6 +39,15 @@ type ResponseServerType = {
     }
 }
 
+export type StoreType = {
+    tasks: TaskType[],
+    loading: boolean,
+    page: number,
+    pageCount: number,
+    totalTasks: number,
+    fetchTasks: (page?: number, pageSize?: number) => void,
+    addTask: (data: AddTaskType) => void
+}
 
 export const useTasksStore = create<StoreType>((set, get) => ({
     tasks: [],
@@ -66,5 +76,30 @@ export const useTasksStore = create<StoreType>((set, get) => ({
             set({loading: false})
         }
 
+    },
+    addTask: async (data) => {
+        try {
+            const res = await fetch(`${BASE_URL}`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    data: {...data}
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                }
+            })
+            if(res.status !== 200) {
+                throw new Error(`Error created todo: ${res.status} ${res.statusText}`);
+            }
+            const createdTask = await res.json() as CreatedTaskServerType
+            set(state => ({
+                tasks: [{...createdTask.data}, ...state.tasks]
+            }))
+            
+        } catch (error) {
+            if(error instanceof Error) {
+                console.log(error.message)
+            }
+        }
     }
 }))

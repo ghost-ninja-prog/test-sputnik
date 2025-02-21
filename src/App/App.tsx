@@ -4,6 +4,7 @@ import { Typography } from 'antd'
 
 import { TasksList } from "../components/TaskList/TasksList"
 import { Categories } from "../components/Categories/Categories"
+import { AddTask } from "../components/AddTask/AddTask"
   
   
   
@@ -32,6 +33,7 @@ function App() {
           Tasks List
         </Typography.Title>
       </TitleWrapper>
+      <AddTask />
       <Categories setSelectedCategory={setSelectedCategory} />
       <TasksList selectedCategory={selectedCategory} />
 
