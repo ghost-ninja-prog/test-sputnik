@@ -8,9 +8,11 @@ import { Categories } from "../components/Categories/Categories"
   
   
 const AppWrapper = styled.div`
-  padding: 0.5rem;
+  padding: 5px;
+  width: 450px;
   background-color: #fff;
   border-radius: 6px;
+  text-align: center;
 `
 
 const TitleWrapper = styled.div`

@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react'
 import { TaskItem } from '../TaskItem/TaskItem'
 import styled from 'styled-components'
+
 import { useTasksStore } from '../../store/useTasksStore'
+
+import MyLoader from '../Skeleton/Skelelton'
 
 type TodoListPropsType = {
     selectedCategory: string
@@ -31,7 +34,7 @@ export const TasksList: React.FC<TodoListPropsType> = ({ selectedCategory }) => 
                 <TaskItem task={task} key={task.id} />
             ))
         }
-        {loading && <p>Loading...</p>}
+        {loading && <MyLoader />}
     </TaskList>
   )
 }
