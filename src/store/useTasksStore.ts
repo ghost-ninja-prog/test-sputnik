@@ -10,9 +10,9 @@ export type TaskType = {
         status: string,
         title: string,
         description: string,
-        createdAt?: string,
-        updatedAt?: string,
-        publishedAt?: string
+        createdAt: string,
+        updatedAt: string,
+        publishedAt: string
     }
 }
 
