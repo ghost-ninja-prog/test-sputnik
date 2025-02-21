@@ -3,13 +3,16 @@ import styled from 'styled-components'
 import { Button, Checkbox, Flex, Tooltip } from 'antd'
 import { DeleteOutlined, StarOutlined } from '@ant-design/icons'
 
-import { TaskType } from '../../store/useTasksStore'
+import { UpdateDataType, useTasksStore } from '../../store/useTasksStore'
 
 
 
 
 type TaskItemPropsType = {
-    task: TaskType 
+  id: number,
+  title: string,
+  description: string,
+  status: string
 }
 
 const Task = styled.div`
@@ -26,23 +29,41 @@ const Task = styled.div`
   }
 `
 
-export const TaskItem: React.FC<TaskItemPropsType> = ({ task }) => {
+export const TaskItem: React.FC<TaskItemPropsType> = ({ id, title, status, description }) => {
+
+  const { updateTask, deleteTask } = useTasksStore(state => state)
 
 
   const onChangeHandler = () => {
-    console.log('Click checkbox')
+    const updateData: UpdateDataType = {
+      id: id,
+      payload: {
+        data: {
+          status: status === 'active' ? 'completed' : 'active',
+          title: title,
+          description: description
+        }
+      }
+    }
+    updateTask(updateData)
+  }
+
+  const onClickDeleteHandler = () => {
+    deleteTask(id)
   }
 
   const favoritesHandler = () => {
     console.log('Click Favorites button')
   }
 
+  console.log(title, status)
+
   return (
     <Task>
       <Flex gap='small'>
         <Checkbox
           onChange={onChangeHandler} 
-          checked={task.attributes.status === 'completed' ? true : false}
+          checked={ status === 'active' ? false : true }
         />
         <Tooltip 
           title='favorites'
@@ -56,11 +77,12 @@ export const TaskItem: React.FC<TaskItemPropsType> = ({ task }) => {
         </Tooltip>
       </Flex>
       <div>
-        <p>{task.attributes.title}</p>
-        <p>{task.attributes.description}</p>
+        <p>{title}</p>
+        <p>{description}</p>
       </div>
       <Tooltip title='delete'>
         <Button
+          onClick={onClickDeleteHandler}
           type='primary'
           danger
           icon={<DeleteOutlined />}

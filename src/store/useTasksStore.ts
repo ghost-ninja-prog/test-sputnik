@@ -10,9 +10,9 @@ export type TaskType = {
         status: string,
         title: string,
         description: string,
-        createdAt: string,
-        updatedAt: string,
-        publishedAt: string
+        createdAt?: string,
+        updatedAt?: string,
+        publishedAt?: string
     }
 }
 
@@ -22,7 +22,18 @@ export type AddTaskType = {
     status: string
 }
 
-export type CreatedTaskServerType = {
+export type UpdateDataType = {
+    id: number,
+    payload: {
+        data: {
+            title: string,
+            description: string,
+            status: string
+        }
+    }
+}
+
+export type ResponseServerTaskType = {
     data: TaskType,
     meta: object
 }
@@ -46,16 +57,18 @@ export type StoreType = {
     pageCount: number,
     totalTasks: number,
     fetchTasks: (page?: number, pageSize?: number) => void,
-    addTask: (data: AddTaskType) => void
+    addTask: (task: AddTaskType) => void,
+    updateTask: (updateData: UpdateDataType) => void,
+    deleteTask: (id : number) => void
 }
 
-export const useTasksStore = create<StoreType>((set, get) => ({
+export const useTasksStore = create<StoreType>()((set, get) => ({
     tasks: [],
     totalTasks: 0,
     loading: false,
     page: 1,
     pageCount: 1,
-    fetchTasks: async (page = 1, pageSize = 5) => {
+    fetchTasks: async (page = 1, pageSize = 20) => {
         if(get().loading) return
         try {
             set({loading: true})
@@ -77,12 +90,12 @@ export const useTasksStore = create<StoreType>((set, get) => ({
         }
 
     },
-    addTask: async (data) => {
+    addTask: async (task) => {
         try {
             const res = await fetch(`${BASE_URL}`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    data: {...data}
+                    data: {...task}
                 }),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -91,7 +104,7 @@ export const useTasksStore = create<StoreType>((set, get) => ({
             if(res.status !== 200) {
                 throw new Error(`Error created todo: ${res.status} ${res.statusText}`);
             }
-            const createdTask = await res.json() as CreatedTaskServerType
+            const createdTask = await res.json() as ResponseServerTaskType
             set(state => ({
                 tasks: [{...createdTask.data}, ...state.tasks]
             }))
@@ -101,5 +114,48 @@ export const useTasksStore = create<StoreType>((set, get) => ({
                 console.log(error.message)
             }
         }
-    }
+    },
+    updateTask: async (updateData) => {
+        try {
+            const res = await fetch(`${BASE_URL}/${updateData.id}`, {
+                method: 'PUT',
+                body: JSON.stringify({...updateData.payload}),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                }
+            })
+            if(res.status !== 200) {
+                throw new Error(`Error updated todo: ${res.status} ${res.statusText}`);
+            }
+
+            const updateTask = await res.json() as ResponseServerTaskType
+
+            console.log(updateTask.data.attributes.status)
+            set((state) => ({
+                tasks: state.tasks.map(task => task.id === updateTask.data.id ? updateTask.data : task)
+            }))
+        } catch (error) {
+            if(error instanceof Error) {
+                console.log(error.message)
+            }
+        }
+    },
+    deleteTask: async (id) => {
+        try {
+            const response = await fetch(`${BASE_URL}/${id}`, {
+                method: 'DELETE'
+            })
+            if (response.status !== 200) {
+                throw new Error(`Error delete todo, ${response.status}: ${response.statusText}`)
+            }
+            set(state => ({
+                tasks: state.tasks.filter(task => task.id !== id)
+            }))
+
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log(error.message)
+            }
+        }
+    },
 }))

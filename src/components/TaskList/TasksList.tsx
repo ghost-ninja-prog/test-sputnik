@@ -31,7 +31,13 @@ export const TasksList: React.FC<TodoListPropsType> = ({ selectedCategory }) => 
         <p>{selectedCategory}</p>
         {
             tasks.map(task => (
-                <TaskItem task={task} key={task.id} />
+                <TaskItem 
+                    key={task.id}
+                    id={task.id}
+                    title={task.attributes.title}
+                    description={task.attributes.description}
+                    status={task.attributes.status}
+                />
             ))
         }
         {loading && <MyLoader />}
