@@ -2,7 +2,7 @@ import { useState } from "react"
 import styled from "styled-components"
 import { Typography } from 'antd'
 
-import { TodoList } from "../components/TodoList/TodoList"
+import { TasksList } from "../components/TaskList/TasksList"
 import { Categories } from "../components/Categories/Categories"
   
   
@@ -27,11 +27,11 @@ function App() {
         <Typography.Title
           level={1}
         >
-          Todo List
+          Tasks List
         </Typography.Title>
       </TitleWrapper>
       <Categories setSelectedCategory={setSelectedCategory} />
-      <TodoList selectedCategory={selectedCategory} />
+      <TasksList selectedCategory={selectedCategory} />
 
     </AppWrapper>
   )
