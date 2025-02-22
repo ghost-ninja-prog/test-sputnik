@@ -39,7 +39,7 @@ export type ResponseServerTaskType = {
     meta: object
 }
 
-type ResponseServerType = {
+export type ResponseServerType = {
     data: TaskType[],
     meta: {
         pagination: {

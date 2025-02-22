@@ -15,7 +15,7 @@ const mockTask: TaskType = {
     }
 }
 
-describe('Test useFavoritesStore', () => {
+describe('Tests useFavoritesStore', () => {
     test('test addToFavorites', () => {
         const state = useFavoritesStore.getState()
         state.addToFavorites(mockTask)
