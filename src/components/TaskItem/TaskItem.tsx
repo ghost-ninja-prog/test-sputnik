@@ -36,7 +36,8 @@ export const TaskItem: React.FC<TaskItemPropsType> = ({ task, taskElementRef }) 
 
   const onChangeHandler = () => {
     if(task.favorite) {
-      updateFavorites({
+
+      const updateFavoriteTask = {
         id: task.id,
         favorite: true,
         attributes: {
@@ -47,8 +48,11 @@ export const TaskItem: React.FC<TaskItemPropsType> = ({ task, taskElementRef }) 
           updatedAt: task.attributes.updatedAt,
           publishedAt: task.attributes.publishedAt
         }
-      })
+      }
+      updateFavorites(updateFavoriteTask)
+
     } else {
+
       const updateData: UpdateDataType = {
         id: task.id,
         payload: {
@@ -60,6 +64,7 @@ export const TaskItem: React.FC<TaskItemPropsType> = ({ task, taskElementRef }) 
         }
       }
       updateTask(updateData)
+
     }
   }
 
@@ -71,7 +76,7 @@ export const TaskItem: React.FC<TaskItemPropsType> = ({ task, taskElementRef }) 
     }
   }
 
-  const favoritesHandler = () => {
+  const onClickFavoritesHandler = () => {
     addToFavorites(task)
   }
 
@@ -87,7 +92,7 @@ export const TaskItem: React.FC<TaskItemPropsType> = ({ task, taskElementRef }) 
           title='favorites'
         >
           <Button
-            onClick={favoritesHandler}
+            onClick={onClickFavoritesHandler}
             type='primary'
             shape='circle'
             icon={<StarOutlined />}
