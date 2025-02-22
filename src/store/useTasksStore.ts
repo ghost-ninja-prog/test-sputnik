@@ -5,6 +5,7 @@ export const BASE_URL = 'https://cms.laurence.host/api/tasks'
 
 
 export type TaskType = {
+    favorite?:boolean,
     id: number,
     attributes: {
         status: string,
@@ -68,7 +69,7 @@ export const useTasksStore = create<StoreType>()((set, get) => ({
     loading: false,
     page: 1,
     pageCount: 1,
-    fetchTasks: async (page = 1, pageSize = 20) => {
+    fetchTasks: async (page = 1, pageSize = 10) => {
         if(get().loading) return
         try {
             set({loading: true})
@@ -130,7 +131,6 @@ export const useTasksStore = create<StoreType>()((set, get) => ({
 
             const updateTask = await res.json() as ResponseServerTaskType
 
-            console.log(updateTask.data.attributes.status)
             set((state) => ({
                 tasks: state.tasks.map(task => task.id === updateTask.data.id ? updateTask.data : task)
             }))

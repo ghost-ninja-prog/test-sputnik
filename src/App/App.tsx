@@ -10,7 +10,7 @@ import { AddTask } from "../components/AddTask/AddTask"
   
 const AppWrapper = styled.div`
   padding: 5px;
-  width: 450px;
+  max-width: 500px;
   background-color: #fff;
   border-radius: 6px;
   text-align: center;

@@ -3,17 +3,12 @@ import styled from 'styled-components'
 import { Button, Checkbox, Flex, Tooltip } from 'antd'
 import { DeleteOutlined, StarOutlined } from '@ant-design/icons'
 
-import { UpdateDataType, useTasksStore } from '../../store/useTasksStore'
+import { TaskType, UpdateDataType, useTasksStore } from '../../store/useTasksStore'
+import { useFavoritesStore } from '../../store/useFavoritesStore'
 
 
 
 
-type TaskItemPropsType = {
-  id: number,
-  title: string,
-  description: string,
-  status: string
-}
 
 const Task = styled.div`
   display: flex;
@@ -27,43 +22,66 @@ const Task = styled.div`
     transform: translateY(-2px);
     box-shadow: 1px 1px 5px rgba(0,0,0, .3);
   }
-`
+  `
+  
+  type TaskItemPropsType = {
+    task: TaskType
+  }
 
-export const TaskItem: React.FC<TaskItemPropsType> = ({ id, title, status, description }) => {
+export const TaskItem: React.FC<TaskItemPropsType> = ({ task }) => {
 
   const { updateTask, deleteTask } = useTasksStore(state => state)
+  const { addToFavorites, deleteFromFavorites, updateFavorites } = useFavoritesStore(state => state)
 
 
   const onChangeHandler = () => {
-    const updateData: UpdateDataType = {
-      id: id,
-      payload: {
-        data: {
-          status: status === 'active' ? 'completed' : 'active',
-          title: title,
-          description: description
+    if(task.favorite) {
+      updateFavorites({
+        id: task.id,
+        favorite: true,
+        attributes: {
+          status: task.attributes.status === 'active' ? 'completed' : 'active',
+          title: task.attributes.title,
+          description: task.attributes.description,
+          createdAt: task.attributes.createdAt,
+          updatedAt: task.attributes.updatedAt,
+          publishedAt: task.attributes.publishedAt
+        }
+      })
+    } else {
+      const updateData: UpdateDataType = {
+        id: task.id,
+        payload: {
+          data: {
+            status: task.attributes.status === 'active' ? 'completed' : 'active',
+            title: task.attributes.title,
+            description: task.attributes.description
+          }
         }
       }
+      updateTask(updateData)
     }
-    updateTask(updateData)
   }
 
   const onClickDeleteHandler = () => {
-    deleteTask(id)
+    if(task.favorite) {
+      deleteFromFavorites(task.id)
+    } else {
+      deleteTask(task.id)
+    }
   }
 
   const favoritesHandler = () => {
-    console.log('Click Favorites button')
+    addToFavorites(task)
   }
 
-  console.log(title, status)
 
   return (
     <Task>
       <Flex gap='small'>
         <Checkbox
           onChange={onChangeHandler} 
-          checked={ status === 'active' ? false : true }
+          checked={ task.attributes.status === 'active' ? false : true }
         />
         <Tooltip 
           title='favorites'
@@ -77,8 +95,8 @@ export const TaskItem: React.FC<TaskItemPropsType> = ({ id, title, status, descr
         </Tooltip>
       </Flex>
       <div>
-        <p>{title}</p>
-        <p>{description}</p>
+        <p>{task.attributes.title}</p>
+        <p>{task.attributes.description}</p>
       </div>
       <Tooltip title='delete'>
         <Button
