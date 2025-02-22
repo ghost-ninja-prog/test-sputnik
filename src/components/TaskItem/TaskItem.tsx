@@ -25,14 +25,14 @@ const Task = styled.div`
   `
   
   type TaskItemPropsType = {
-    task: TaskType
+    task: TaskType,
+    taskElementRef?: ((el: HTMLDivElement) => void) | null
   }
 
-export const TaskItem: React.FC<TaskItemPropsType> = ({ task }) => {
+export const TaskItem: React.FC<TaskItemPropsType> = ({ task, taskElementRef }) => {
 
   const { updateTask, deleteTask } = useTasksStore(state => state)
   const { addToFavorites, deleteFromFavorites, updateFavorites } = useFavoritesStore(state => state)
-
 
   const onChangeHandler = () => {
     if(task.favorite) {
@@ -77,7 +77,7 @@ export const TaskItem: React.FC<TaskItemPropsType> = ({ task }) => {
 
 
   return (
-    <Task>
+    <Task ref={taskElementRef}>
       <Flex gap='small'>
         <Checkbox
           onChange={onChangeHandler} 

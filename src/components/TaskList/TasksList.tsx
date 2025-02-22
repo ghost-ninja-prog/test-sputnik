@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { TaskItem } from '../TaskItem/TaskItem'
 import styled from 'styled-components'
 
@@ -24,8 +24,10 @@ const TaskList = styled.div`
 
 export const TasksList: React.FC<TodoListPropsType> = ({ selectedCategory }) => {
 
-    const { tasks, page, loading, fetchTasks } = useTasksStore(state => state)
+    const { tasks, page, loading, totalTasks, fetchTasks, changePage } = useTasksStore(state => state)
     const { favoritesTasks } = useFavoritesStore(state => state)
+
+    const observer = useRef<IntersectionObserver>(null)
 
     const filteredTasks = tasks.filter(task => {
 		if (selectedCategory === 'all') {
@@ -39,10 +41,32 @@ export const TasksList: React.FC<TodoListPropsType> = ({ selectedCategory }) => 
 
     useEffect(() => {
         fetchTasks(page)
-    }, [page])
+    }, [page, fetchTasks])
+
+
+    const taskElementRef: (el: HTMLDivElement) => void = useCallback(
+        (el) => {
+            if(loading) return
+            if(observer.current) observer.current.disconnect()
+            if(tasks.length === totalTasks) return
+            
+            observer.current = new IntersectionObserver((entries) => {
+                if(entries[0].isIntersecting) {
+                    changePage(page + 1)
+                }
+            },
+            {
+                root: document.querySelector('#listTaskRef'),
+                rootMargin: '0px',
+                threshold: 1.0
+            })
+            if(el) observer.current?.observe(el)
+        },
+        [loading]
+    )
 
   return (
-    <TaskList>
+    <TaskList id='listTaskRef'>
         { selectedCategory === 'favorites' ? 
             favoritesTasks.map(task => (
                 <TaskItem 
@@ -51,10 +75,12 @@ export const TasksList: React.FC<TodoListPropsType> = ({ selectedCategory }) => 
                 />
             ))
             :
-            filteredTasks.map(task => (
+            filteredTasks.map((task, index) => (
                 <TaskItem 
                     key={task.id}
                     task={task}
+                    taskElementRef={filteredTasks.length === index + 1 ? taskElementRef : null}
+
                 />
             ))
         }

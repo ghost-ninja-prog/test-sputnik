@@ -60,7 +60,8 @@ export type StoreType = {
     fetchTasks: (page?: number, pageSize?: number) => void,
     addTask: (task: AddTaskType) => void,
     updateTask: (updateData: UpdateDataType) => void,
-    deleteTask: (id : number) => void
+    deleteTask: (id : number) => void,
+    changePage: (page: number) => void
 }
 
 export const useTasksStore = create<StoreType>()((set, get) => ({
@@ -69,7 +70,7 @@ export const useTasksStore = create<StoreType>()((set, get) => ({
     loading: false,
     page: 1,
     pageCount: 1,
-    fetchTasks: async (page = 1, pageSize = 10) => {
+    fetchTasks: async (page = 1, pageSize = 6) => {
         if(get().loading) return
         try {
             set({loading: true})
@@ -158,4 +159,7 @@ export const useTasksStore = create<StoreType>()((set, get) => ({
             }
         }
     },
+    changePage: (page) => {
+        set({page: page})
+    }
 }))

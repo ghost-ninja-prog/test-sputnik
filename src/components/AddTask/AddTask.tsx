@@ -50,10 +50,10 @@ export const AddTask: React.FC = () => {
           wrapperCol={{ span: 60 }}
           label={null}
           name="inputTitle"
-          rules={[{ required: true, message: 'Please enter todo!' }]}
+          rules={[{ required: true, message: 'Please enter task title!' }]}
         >
           <Space.Compact>
-            <Input placeholder='Enter todo title' style={{ width: 350 }} />
+            <Input placeholder='Enter task title' style={{ width: 350 }} />
           </Space.Compact>
         </Form.Item>
 
@@ -61,10 +61,10 @@ export const AddTask: React.FC = () => {
           wrapperCol={{ span: 60 }}
           label={null}
           name="inputDesc"
-          rules={[{ required: true, message: 'Please enter todo!' }]}
+          rules={[{ required: true, message: 'Please enter task description' }]}
         >
           <Space.Compact>
-            <Input placeholder='Enter todo title' style={{ width: 350 }} />
+            <Input placeholder='Enter task description' style={{ width: 350 }} />
           </Space.Compact>
         </Form.Item>
 
