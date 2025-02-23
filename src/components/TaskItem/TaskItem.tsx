@@ -38,15 +38,11 @@ export const TaskItem: React.FC<TTaskItemPropsType> = ({ task, taskElementRef })
     if(task.favorite) {
 
       const updateFavoriteTask = {
-        id: task.id,
+        ...task,
         favorite: true,
         attributes: {
+          ...task.attributes,
           status: task.attributes.status === 'active' ? 'completed' : 'active',
-          title: task.attributes.title,
-          description: task.attributes.description,
-          createdAt: task.attributes.createdAt,
-          updatedAt: task.attributes.updatedAt,
-          publishedAt: task.attributes.publishedAt
         }
       }
       updateFavorites(updateFavoriteTask)
