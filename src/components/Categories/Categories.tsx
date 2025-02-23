@@ -7,11 +7,11 @@ const WrapperCategories = styled.div`
   padding: 8px 6px;
 `
 
-type CategoriesPropsType = {
+type TCategoriesPropsType = {
     setSelectedCategory: Dispatch<SetStateAction<string>>
 }
 
-export const Categories: React.FC<CategoriesPropsType> = ({ setSelectedCategory }) => {
+export const Categories: React.FC<TCategoriesPropsType> = ({ setSelectedCategory }) => {
 
 
     const onChangeHandler = (event: RadioChangeEvent) => {

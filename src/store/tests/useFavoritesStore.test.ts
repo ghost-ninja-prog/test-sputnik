@@ -23,7 +23,7 @@ describe('Tests useFavoritesStore', () => {
         expect(newState.favoritesTasks[0]).toEqual({ favorite: true, ...mockTask })
     })
     test('test updateFavorites', () => {
-        const updateTask: TodoType = {
+        const updateTask: TTaskType = {
             id: 1,
             attributes: {
                 status: 'active',

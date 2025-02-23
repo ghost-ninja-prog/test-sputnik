@@ -1,11 +1,11 @@
-import { Button, Form, FormProps, Input, Space } from 'antd'
+import { Button, Form, FormProps, Input } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import { useTasksStore } from '../../store/useTasksStore'
 
 
 const WrapperForm = styled.div`
-  margin: 20px auto;
+  padding: 20px 20px;
 `
 
 
@@ -16,12 +16,12 @@ export const AddTask: React.FC = () => {
 
   const [form] = Form.useForm()
 
-  type FieldType = {
+  type TFieldType = {
     inputTitle: string,
     inputDesc: string
   }
 
-  const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+  const onFinish: FormProps<TFieldType>['onFinish'] = (values) => {
     const payload = {
       title: values.inputTitle,
       description: values.inputDesc,
@@ -31,7 +31,7 @@ export const AddTask: React.FC = () => {
     form.resetFields(['inputTitle', 'inputDesc'])
   }
 
-  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+  const onFinishFailed: FormProps<TFieldType>['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo)
   }
 
@@ -46,31 +46,23 @@ export const AddTask: React.FC = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Form.Item<FieldType>
-          wrapperCol={{ span: 60 }}
+        <Form.Item<TFieldType>
           label={null}
           name="inputTitle"
           rules={[{ required: true, message: 'Please enter task title!' }]}
         >
-          <Space.Compact>
-            <Input placeholder='Enter task title' style={{ width: 350 }} />
-          </Space.Compact>
+            <Input placeholder='Enter task title' />
         </Form.Item>
 
-        <Form.Item<FieldType>
-          wrapperCol={{ span: 60 }}
+        <Form.Item<TFieldType>
           label={null}
           name="inputDesc"
           rules={[{ required: true, message: 'Please enter task description' }]}
         >
-          <Space.Compact>
-            <Input placeholder='Enter task description' style={{ width: 350 }} />
-          </Space.Compact>
+            <Input placeholder='Enter task description' />
         </Form.Item>
 
-        <Space.Compact>
-          <Button type="primary" htmlType='submit'>Add Task</Button>
-        </Space.Compact>
+        <Button type="primary" htmlType='submit'>Add Task</Button>
         
       </Form>
     </WrapperForm>

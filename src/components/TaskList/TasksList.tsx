@@ -7,9 +7,6 @@ import { useTasksStore } from '../../store/useTasksStore'
 import MyLoader from '../Skeleton/Skelelton'
 import { useFavoritesStore } from '../../store/useFavoritesStore'
 
-type TodoListPropsType = {
-    selectedCategory: string
-}
 
 const TaskList = styled.div`
     padding: 8px 6px;
@@ -20,9 +17,14 @@ const TaskList = styled.div`
     overflow-x: auto;
     scrollbar-width: thin;
     scrollbar-color: #afaeae #fff;
-`
+    `
 
-export const TasksList: React.FC<TodoListPropsType> = ({ selectedCategory }) => {
+type TTodoListPropsType = {
+    selectedCategory: string
+}
+
+
+export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) => {
 
     const { tasks, page, loading, totalTasks, fetchTasks, changePage } = useTasksStore(state => state)
     const { favoritesTasks } = useFavoritesStore(state => state)
@@ -41,7 +43,7 @@ export const TasksList: React.FC<TodoListPropsType> = ({ selectedCategory }) => 
 
     useEffect(() => {
         fetchTasks(page)
-    }, [page, fetchTasks])
+    }, [page])
 
 
     const taskElementRef: (el: HTMLDivElement) => void = useCallback(

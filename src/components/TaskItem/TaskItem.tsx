@@ -24,12 +24,12 @@ const Task = styled.div`
   }
   `
   
-  type TaskItemPropsType = {
+  type TTaskItemPropsType = {
     task: TTaskType,
     taskElementRef?: ((el: HTMLDivElement) => void) | null
   }
 
-export const TaskItem: React.FC<TaskItemPropsType> = ({ task, taskElementRef }) => {
+export const TaskItem: React.FC<TTaskItemPropsType> = ({ task, taskElementRef }) => {
 
   const { updateTask, deleteTask } = useTasksStore(state => state)
   const { addToFavorites, deleteFromFavorites, updateFavorites } = useFavoritesStore(state => state)

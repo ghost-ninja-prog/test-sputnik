@@ -78,6 +78,7 @@ export const handlers = [
         }
         return HttpResponse.json(responseObj, { status: 200 })
     }),
+    
     http.delete(`${BASE_URL}/:id`, ()  => {
       return HttpResponse.json({
         status: 200
