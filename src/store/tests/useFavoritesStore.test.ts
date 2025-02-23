@@ -1,9 +1,9 @@
 import { describe, expect, test } from "vitest"
 import { useFavoritesStore } from "../useFavoritesStore"
-import { TaskType } from "../useTasksStore"
+import { TTaskType } from "../useTasksStore"
 
 
-const mockTask: TaskType = {
+const mockTask: TTaskType = {
     id: 1,
     attributes: {
         status: 'completed',

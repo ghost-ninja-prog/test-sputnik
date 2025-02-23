@@ -1,6 +1,6 @@
-import { TaskType } from "../store/useTasksStore";
+import { TTaskType } from "../store/useTasksStore";
 
-export const mockTasks: TaskType[] = [
+export const mockTasks: TTaskType[] = [
     {
         id: 1,
         attributes: {

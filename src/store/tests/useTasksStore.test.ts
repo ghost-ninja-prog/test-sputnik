@@ -1,10 +1,10 @@
 import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
-import { AddTaskType, TaskType, UpdateDataType, useTasksStore } from "../useTasksStore";
+import { TAddTaskType, TTaskType, TUpdateDataType, useTasksStore } from "../useTasksStore";
 import { waitFor } from "@testing-library/dom";
 import { server } from "../../mocks/node";
 
 
-const mockTasks: TaskType[] = [
+const mockTasks: TTaskType[] = [
     {
         id: 1,
         attributes: {
@@ -51,7 +51,7 @@ describe('Tests useTasksStore', () => {
     })
 
     test('test addTask', async () => {
-        const task: AddTaskType = {
+        const task: TAddTaskType = {
             title: 'Created Task',
             description: 'Description Cerated Task',
             status: 'active'
@@ -70,7 +70,7 @@ describe('Tests useTasksStore', () => {
     test('test updateTask', async () => {
         useTasksStore.setState({tasks: mockTasks})
         const state = useTasksStore.getState()
-        const updateTask: UpdateDataType = {
+        const updateTask: TUpdateDataType = {
             id: 1,
             payload: {
                 data: {

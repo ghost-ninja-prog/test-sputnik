@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Button, Checkbox, Flex, Tooltip } from 'antd'
 import { DeleteOutlined, StarOutlined } from '@ant-design/icons'
 
-import { TaskType, UpdateDataType, useTasksStore } from '../../store/useTasksStore'
+import { TTaskType, TUpdateDataType, useTasksStore } from '../../store/useTasksStore'
 import { useFavoritesStore } from '../../store/useFavoritesStore'
 
 
@@ -25,7 +25,7 @@ const Task = styled.div`
   `
   
   type TaskItemPropsType = {
-    task: TaskType,
+    task: TTaskType,
     taskElementRef?: ((el: HTMLDivElement) => void) | null
   }
 
@@ -53,7 +53,7 @@ export const TaskItem: React.FC<TaskItemPropsType> = ({ task, taskElementRef }) 
 
     } else {
 
-      const updateData: UpdateDataType = {
+      const updateData: TUpdateDataType = {
         id: task.id,
         payload: {
           data: {

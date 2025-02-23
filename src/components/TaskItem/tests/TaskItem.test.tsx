@@ -2,12 +2,12 @@ import '@testing-library/jest-dom'
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-import { TaskItem } from "./TaskItem";
-import { TaskType } from "../../store/useTasksStore";
+import { TaskItem } from "../TaskItem";
+import { TTaskType } from "../../../store/useTasksStore";
 
 
 
-const testTask: TaskType = {
+const testTask: TTaskType = {
     id: 1,
     attributes: {
         status: 'completed',

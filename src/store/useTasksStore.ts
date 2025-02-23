@@ -4,7 +4,7 @@ import { create } from "zustand"
 export const BASE_URL = 'https://cms.laurence.host/api/tasks'
 
 
-export type TaskType = {
+export type TTaskType = {
     favorite?:boolean,
     id: number,
     attributes: {
@@ -17,13 +17,13 @@ export type TaskType = {
     }
 }
 
-export type AddTaskType = {
+export type TAddTaskType = {
     title: string,
     description: string,
     status: string
 }
 
-export type UpdateDataType = {
+export type TUpdateDataType = {
     id: number,
     payload: {
         data: {
@@ -34,13 +34,13 @@ export type UpdateDataType = {
     }
 }
 
-export type ResponseServerTaskType = {
-    data: TaskType,
+export type TResponseServerTaskType = {
+    data: TTaskType,
     meta: object
 }
 
-export type ResponseServerType = {
-    data: TaskType[],
+export type TResponseServerType = {
+    data: TTaskType[],
     meta: {
         pagination: {
             page: number,
@@ -51,20 +51,20 @@ export type ResponseServerType = {
     }
 }
 
-export type StoreType = {
-    tasks: TaskType[],
+export type TStoreType = {
+    tasks: TTaskType[],
     loading: boolean,
     page: number,
     pageCount: number,
     totalTasks: number,
     fetchTasks: (page?: number, pageSize?: number) => void,
-    addTask: (task: AddTaskType) => void,
-    updateTask: (updateData: UpdateDataType) => void,
+    addTask: (task: TAddTaskType) => void,
+    updateTask: (updateData: TUpdateDataType) => void,
     deleteTask: (id : number) => void,
     changePage: (page: number) => void
 }
 
-export const useTasksStore = create<StoreType>()((set, get) => ({
+export const useTasksStore = create<TStoreType>()((set, get) => ({
     tasks: [],
     totalTasks: 0,
     loading: false,
@@ -75,7 +75,7 @@ export const useTasksStore = create<StoreType>()((set, get) => ({
         try {
             set({loading: true})
             const res = await fetch(`${BASE_URL}?pagination[page]=${page}&pagination[pageSize]=${pageSize}`)
-            const data = await res.json() as ResponseServerType
+            const data = await res.json() as TResponseServerType
             set(state => ({
                 tasks: state.tasks.concat(data.data),
                 totalTasks: data.meta.pagination.total,
@@ -106,7 +106,7 @@ export const useTasksStore = create<StoreType>()((set, get) => ({
             if(res.status !== 200) {
                 throw new Error(`Error created todo: ${res.status} ${res.statusText}`);
             }
-            const createdTask = await res.json() as ResponseServerTaskType
+            const createdTask = await res.json() as TResponseServerTaskType
             set(state => ({
                 tasks: [{...createdTask.data}, ...state.tasks]
             }))
@@ -130,7 +130,7 @@ export const useTasksStore = create<StoreType>()((set, get) => ({
                 throw new Error(`Error updated todo: ${res.status} ${res.statusText}`);
             }
 
-            const updateTask = await res.json() as ResponseServerTaskType
+            const updateTask = await res.json() as TResponseServerTaskType
 
             set((state) => ({
                 tasks: state.tasks.map(task => task.id === updateTask.data.id ? updateTask.data : task)
