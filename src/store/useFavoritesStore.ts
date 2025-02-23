@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { TTaskType } from "./useTasksStore";
 import { persist } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
 
 
 type TStore = {
@@ -16,33 +17,29 @@ type TActions = {
 
 export const useFavoritesStore = create<TStore & TActions>()(
     persist(
-        (set, get) => ({
+        immer((set, get) => ({
             favoritesTasks: [],
-            addToFavorites: (newTask) => {
+            addToFavorites: (newTask) => {                
                 const ind = get().favoritesTasks.findIndex(todo => todo.id === newTask.id)
                 if (ind !== -1) return
-
-                set(state => ({
-                    favoritesTasks: [
-                        ...state.favoritesTasks,
-                        {
-                            ...newTask,
-                            favorite: true
-                        }
-                    ]
-                }))
+                return set(state => {
+                    state.favoritesTasks.push({...newTask, favorite: true})
+                })
             },
             updateFavorites: (updateTask) => {
-                set(state => ({
-                    favoritesTasks: state.favoritesTasks.map(task => task.id === updateTask.id ? updateTask : task)
-                }))
-            },
-            deleteFromFavorites: (id) => {
-                set(state => ({
-                    favoritesTasks: state.favoritesTasks.filter(task => task.id !== id)
-                }))
+                return set(state => {
+                    const indObj = get().favoritesTasks.findIndex(task => task.id === updateTask.id)
+                    state.favoritesTasks[indObj].attributes.status = updateTask.attributes.status
+                })
             }
-        }),
+            ,
+            deleteFromFavorites: (id) => {
+                const ind = get().favoritesTasks.findIndex(todo => todo.id === id)
+                return set(state => {
+                    state.favoritesTasks.splice(ind, 1)
+                })
+            }
+        })),
         {
             name: 'favorites-storage'
         }
