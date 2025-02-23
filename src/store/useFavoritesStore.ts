@@ -3,14 +3,18 @@ import { TTaskType } from "./useTasksStore";
 import { persist } from "zustand/middleware";
 
 
-type TFavoritesStore = {
+type TStore = {
     favoritesTasks: TTaskType[],
+    
+}
+
+type TActions = {
     addToFavorites: (newTask: TTaskType) => void,
     updateFavorites: (updateTask: TTaskType) => void,
     deleteFromFavorites: (id: number) => void
 }
 
-export const useFavoritesStore = create<TFavoritesStore>()(
+export const useFavoritesStore = create<TStore & TActions>()(
     persist(
         (set, get) => ({
             favoritesTasks: [],

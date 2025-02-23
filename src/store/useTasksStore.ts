@@ -51,12 +51,16 @@ export type TResponseServerType = {
     }
 }
 
-export type TStoreType = {
+ type TStore = {
     tasks: TTaskType[],
     loading: boolean,
     page: number,
     pageCount: number,
     totalTasks: number,
+    
+}
+
+ type TAction = {
     fetchTasks: (page?: number, pageSize?: number) => void,
     addTask: (task: TAddTaskType) => void,
     updateTask: (updateData: TUpdateDataType) => void,
@@ -64,7 +68,7 @@ export type TStoreType = {
     changePage: (page: number) => void
 }
 
-export const useTasksStore = create<TStoreType>()((set, get) => ({
+export const useTasksStore = create<TStore & TAction>()((set, get) => ({
     tasks: [],
     totalTasks: 0,
     loading: false,
