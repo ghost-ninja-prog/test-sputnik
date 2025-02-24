@@ -29,7 +29,7 @@ export const useFavoritesStore = create<TStore & TActions>()(
             updateFavorites: (updateTask) => {
                 return set(state => {
                     const indObj = get().favoritesTasks.findIndex(task => task.id === updateTask.id)
-                    state.favoritesTasks[indObj].attributes.status = updateTask.attributes.status
+                    state.favoritesTasks[indObj].attributes = updateTask.attributes
                 })
             }
             ,
