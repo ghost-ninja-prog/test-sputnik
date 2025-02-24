@@ -13,7 +13,7 @@ const TaskList = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 5px;
-    height: 300px;
+    height: 400px;
     overflow-x: auto;
     scrollbar-width: thin;
     scrollbar-color: #afaeae #fff;
