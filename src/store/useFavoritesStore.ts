@@ -19,19 +19,20 @@ export const useFavoritesStore = create<TStore & TActions>()(
     persist(
         immer((set, get) => ({
             favoritesTasks: [],
-            addToFavorites: (newTask) => {                
+            addToFavorites: (newTask) => {    
+                            
                 const ind = get().favoritesTasks.findIndex(todo => todo.id === newTask.id)
                 if (ind !== -1) return
+
                 return set(state => {
                     state.favoritesTasks.push({...newTask, favorite: true})
                 })
             },
-            updateFavorites: (updateTask) => {
-                return set(state => {
+            updateFavorites: (updateTask) => 
+                set(state => {
                     const indObj = get().favoritesTasks.findIndex(task => task.id === updateTask.id)
                     state.favoritesTasks[indObj].attributes = updateTask.attributes
                 })
-            }
             ,
             deleteFromFavorites: (id) => {
                 const ind = get().favoritesTasks.findIndex(todo => todo.id === id)
