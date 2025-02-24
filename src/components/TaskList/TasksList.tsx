@@ -26,8 +26,10 @@ type TTodoListPropsType = {
 
 export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) => {
 
-    const { tasks, page, loading, totalTasks, fetchTasks, changePage } = useTasksStore(state => state)
-    const { favoritesTasks } = useFavoritesStore(state => state)
+    
+
+    const { tasks, page, loading, totalTasks, fetchTasks, changePage, updateTask, deleteTask } = useTasksStore(state => state)
+    const { favoritesTasks, addToFavorites, deleteFromFavorites, updateFavorites  } = useFavoritesStore(state => state)
 
     const observer = useRef<IntersectionObserver>(null)
 
@@ -74,6 +76,11 @@ export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) =>
                 <TaskItem 
                     key={task.id}
                     task={task}
+                    updateTask={updateTask}
+                    deleteTask={deleteTask}
+                    addToFavorites={addToFavorites}
+                    deleteFromFavorites={deleteFromFavorites}
+                    updateFavorites={updateFavorites}
                 />
             ))
             :
@@ -81,6 +88,11 @@ export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) =>
                 <TaskItem 
                     key={task.id}
                     task={task}
+                    updateTask={updateTask}
+                    deleteTask={deleteTask}
+                    addToFavorites={addToFavorites}
+                    deleteFromFavorites={deleteFromFavorites}
+                    updateFavorites={updateFavorites}
                     taskElementRef={filteredTasks.length === index + 1 ? taskElementRef : null}
 
                 />

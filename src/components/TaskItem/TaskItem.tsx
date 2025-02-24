@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import { Button, Checkbox, Flex, Tooltip } from 'antd'
 import { DeleteOutlined, StarOutlined } from '@ant-design/icons'
+import { TTaskType, TUpdateDataType } from '../../store/useTasksStore'
 
-import { TTaskType, TUpdateDataType, useTasksStore } from '../../store/useTasksStore'
-import { useFavoritesStore } from '../../store/useFavoritesStore'
 
 
 
@@ -22,17 +21,29 @@ const Task = styled.div`
     transform: translateY(-2px);
     box-shadow: 1px 1px 5px rgba(0,0,0, .3);
   }
-  `
+`
   
   type TTaskItemPropsType = {
     task: TTaskType,
+    updateTask: (task: TUpdateDataType) => void,
+    deleteTask: (id: number) => void,
+    addToFavorites: (newTask: TTaskType) => void,
+    deleteFromFavorites: (id: number) => void,
+    updateFavorites: (updateTask: TTaskType) => void,
     taskElementRef?: ((el: HTMLDivElement) => void) | null
   }
 
-export const TaskItem: React.FC<TTaskItemPropsType> = ({ task, taskElementRef }) => {
+export const TaskItem: React.FC<TTaskItemPropsType> = memo( 
+  function TaskItem ({ 
+    task,
+    deleteTask,
+    updateTask,
+    addToFavorites,
+    deleteFromFavorites,
+    updateFavorites,
+    taskElementRef 
+  }) {
 
-  const { updateTask, deleteTask } = useTasksStore(state => state)
-  const { addToFavorites, deleteFromFavorites, updateFavorites } = useFavoritesStore(state => state)
 
   const onChangeHandler = () => {
     if(task.favorite) {
@@ -60,7 +71,6 @@ export const TaskItem: React.FC<TTaskItemPropsType> = ({ task, taskElementRef })
         }
       }
       updateTask(updateData)
-
     }
   }
 
@@ -76,7 +86,7 @@ export const TaskItem: React.FC<TTaskItemPropsType> = ({ task, taskElementRef })
     addToFavorites(task)
   }
 
-
+  console.log('render taskItem', task.id)
   return (
     <Task ref={taskElementRef}>
       <Flex gap='small'>
@@ -109,4 +119,4 @@ export const TaskItem: React.FC<TTaskItemPropsType> = ({ task, taskElementRef })
       </Tooltip>
     </Task>
   )
-}
+})
