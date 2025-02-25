@@ -1,50 +1,20 @@
-# React + TypeScript + Vite
+## Приложение Task List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Для запуска приложения используй `npm start`
 
-Currently, two official plugins are available:
+Для добавления задачи введи заголовок и описание в форме и нажми кнопку <button>Add Task</button>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Для фильтрации списка используй кнопки <button>Все</button><button>Выполненные</button><button>Невыполненные</button><button>Избранное</button>
 
-## Expanding the ESLint configuration
+Для редактирования заголовка или описания нажми на кнопку с карандашом.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Для удаления задачи нажми на кнопку с мусорной корзиной.
 
-- Configure the top-level `parserOptions` property like this:
+Для добавления в избранное нажми на звездочку.  
+Список с избранными задачами сохраняется в LocalStorage, поэтому они не теряются даже после перезагрузки.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Так как у избранных задач отдельное хранилище поэтому они редактируются и удаляются отдельно от всех остальных задач.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Для создания Infinite Scroll не стал использовать сторонние библиотеки и сделал с помощью IntersectionObserver.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Как и написано в ТЗ тестами покрыл самое важное. 

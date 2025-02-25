@@ -28,7 +28,7 @@ export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) =>
 
     
 
-    const { tasks, page, loading, totalTasks, fetchTasks, changePage, updateTask, deleteTask } = useTasksStore(state => state)
+    const { tasks, page, pageCount, loading, totalTasks, fetchTasks, changePage, updateTask, deleteTask } = useTasksStore(state => state)
     const { favoritesTasks, addToFavorites, deleteFromFavorites, updateFavorites  } = useFavoritesStore(state => state)
 
     const observer = useRef<IntersectionObserver>(null)
@@ -52,7 +52,7 @@ export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) =>
         (el) => {
             if(loading) return
             if(observer.current) observer.current.disconnect()
-            if(tasks.length === totalTasks) return
+            if(tasks.length === totalTasks || page === pageCount) return
             
             observer.current = new IntersectionObserver((entries) => {
                 if(entries[0].isIntersecting) {
