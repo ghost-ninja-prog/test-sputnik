@@ -4,11 +4,6 @@ import { Button, Checkbox, Flex, Tooltip } from 'antd'
 import { CheckOutlined, DeleteOutlined, EditOutlined, StarOutlined } from '@ant-design/icons'
 import { TTaskType, TUpdateDataType } from '../../store/useTasksStore'
 
-
-
-
-
-
 const Task = styled.div`
   display: flex;
   justify-content: space-between;
@@ -101,6 +96,7 @@ export const TaskItem: React.FC<TTaskItemPropsType> = memo(
     const [titleValue, setTitleValue] = useState(task.attributes.title)
     const [descriptionValue, setDescriptionValue] = useState(task.attributes.description)
 
+    
     const changeTitleInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
       setTitleValue(e.target.value)
     }
@@ -108,7 +104,6 @@ export const TaskItem: React.FC<TTaskItemPropsType> = memo(
     const changeDescriptionInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
       setDescriptionValue(e.target.value)
     }
-
 
     const checkboxHandler = () => {
       if (statusValue === 'active') {
@@ -193,6 +188,7 @@ export const TaskItem: React.FC<TTaskItemPropsType> = memo(
 
         <Flex gap='small'>
           <Checkbox
+            data-testid='checkboxTask'
             onChange={checkboxHandler}
             checked={statusValue === 'active' ? false : true}
           />
@@ -200,6 +196,7 @@ export const TaskItem: React.FC<TTaskItemPropsType> = memo(
             title='favorites'
           >
             <Button
+              data-testid='btnFavorites'
               onClick={onClickFavoritesHandler}
               type='primary'
               shape='circle'
@@ -211,11 +208,13 @@ export const TaskItem: React.FC<TTaskItemPropsType> = memo(
         {isEditMode ? (
 
           <WrapperTaskContent>
-            <InputTitle 
+            <InputTitle
+              data-testid='inputTitle'
               value={titleValue} 
               onChange={changeTitleInputHandler}
             />
-            <InputDescription 
+            <InputDescription
+              data-testid='inputDescription'
               value={descriptionValue} 
               onChange={changeDescriptionInputHandler}
             />
@@ -224,8 +223,8 @@ export const TaskItem: React.FC<TTaskItemPropsType> = memo(
         ) : (
 
           <WrapperTaskContent>
-            <TitleTask>{task.attributes.title}</TitleTask>
-            <Description>{task.attributes.description}</Description>
+            <TitleTask data-testid='titleTask'>{task.attributes.title}</TitleTask>
+            <Description data-testid='descriptionTask'>{task.attributes.description}</Description>
           </WrapperTaskContent>
 
         )}
@@ -234,6 +233,7 @@ export const TaskItem: React.FC<TTaskItemPropsType> = memo(
           {isEditMode ? (
             <Tooltip title="save">
               <Button
+                data-testid='btnSave'
                 onClick={onClickBtnSave}
                 type="primary"
                 shape="circle"
@@ -243,6 +243,7 @@ export const TaskItem: React.FC<TTaskItemPropsType> = memo(
           ) : (
             <Tooltip title="edit">
               <Button
+                data-testid='btnEdit'
                 onClick={onClickBtnEdit}
                 type="primary"
                 shape="circle"
@@ -252,6 +253,7 @@ export const TaskItem: React.FC<TTaskItemPropsType> = memo(
           )}
           <Tooltip title='delete'>
             <Button
+              data-testid='btnDelete'
               onClick={onClickDeleteHandler}
               type='primary'
               shape='circle'
