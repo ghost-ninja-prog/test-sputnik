@@ -45,7 +45,7 @@ export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) =>
 
     useEffect(() => {
         fetchTasks(page)
-    }, [page])
+    }, [page, fetchTasks])
 
 
     const taskElementRef: (el: HTMLDivElement) => void = useCallback(
@@ -66,11 +66,12 @@ export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) =>
             })
             if(el) observer.current?.observe(el)
         },
-        [loading]
+        [loading, changePage, page, pageCount, totalTasks, tasks.length]
     )
 
   return (
     <TaskList id='listTaskRef'>
+        { <MyLoader />}
         { selectedCategory === 'favorites' ? 
             favoritesTasks.map(task => (
                 <TaskItem 
@@ -98,7 +99,6 @@ export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) =>
                 />
             ))
         }
-        {loading && <MyLoader />}
     </TaskList>
   )
 }

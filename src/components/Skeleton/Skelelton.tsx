@@ -1,53 +1,38 @@
-import ContentLoader from "react-content-loader"
+import { Skeleton, Space } from "antd"
+import styled from "styled-components"
+
+
+const SkeletonBody = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+`
+const SkeletonTextContentWrappep = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    flex-grow: 1;
+    margin: 0 15px;
+`
 
 const MyLoader = () => (
-    <>
-        <ContentLoader
-            speed={2}
-            width={450}
-            height={80}
-            viewBox="0 0 480 80"
-            backgroundColor="#f3f3f3"
-            foregroundColor="#ecebeb"
-        >
-            <rect x="0" y="88" rx="3" ry="3" width="178" height="6" />
-            <circle cx="69" cy="36" r="20" />
-            <rect x="17" y="29" rx="0" ry="0" width="16" height="16" />
-            <rect x="115" y="5" rx="0" ry="0" width="241" height="23" />
-            <rect x="115" y="39" rx="0" ry="0" width="241" height="23" />
-            <rect x="410" y="20" rx="0" ry="0" width="32" height="32" />
-        </ContentLoader>
-        <ContentLoader
-            speed={2}
-            width={450}
-            height={80}
-            viewBox="0 0 480 80"
-            backgroundColor="#f3f3f3"
-            foregroundColor="#ecebeb"
-        >
-            <rect x="0" y="88" rx="3" ry="3" width="178" height="6" />
-            <circle cx="69" cy="36" r="20" />
-            <rect x="17" y="29" rx="0" ry="0" width="16" height="16" />
-            <rect x="115" y="5" rx="0" ry="0" width="241" height="23" />
-            <rect x="115" y="39" rx="0" ry="0" width="241" height="23" />
-            <rect x="410" y="20" rx="0" ry="0" width="32" height="32" />
-        </ContentLoader>
-        <ContentLoader
-            speed={2}
-            width={450}
-            height={80}
-            viewBox="0 0 480 80"
-            backgroundColor="#f3f3f3"
-            foregroundColor="#ecebeb"
-        >
-            <rect x="0" y="88" rx="3" ry="3" width="178" height="6" />
-            <circle cx="69" cy="36" r="20" />
-            <rect x="17" y="29" rx="0" ry="0" width="16" height="16" />
-            <rect x="115" y="5" rx="0" ry="0" width="241" height="23" />
-            <rect x="115" y="39" rx="0" ry="0" width="241" height="23" />
-            <rect x="410" y="20" rx="0" ry="0" width="32" height="32" />
-        </ContentLoader>
-    </>
+        <SkeletonBody>
+            <Space>
+                <Skeleton.Avatar size={22} shape='square' />
+                <Skeleton.Avatar size={30} shape='circle' />
+            </Space>
+            <SkeletonTextContentWrappep>
+                <Skeleton.Input size='small' block={true} />
+                <Skeleton.Input size='small' block={true} />
+            </SkeletonTextContentWrappep>
+            <Space>
+                <Skeleton.Avatar size={30} shape='circle' />
+                <Skeleton.Avatar size={30} shape='circle' />
+            </Space>
+        </SkeletonBody>
 )
 
 export default MyLoader
