@@ -98,7 +98,7 @@ export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) =>
                 />
             ))
         }
-        {loading && <MyLoader />}
+        {loading && [...Array(5)].map(() => <MyLoader />) }
     </TaskList>
   )
 }
