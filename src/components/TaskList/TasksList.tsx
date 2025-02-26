@@ -71,7 +71,6 @@ export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) =>
 
   return (
     <TaskList id='listTaskRef'>
-        { <MyLoader />}
         { selectedCategory === 'favorites' ? 
             favoritesTasks.map(task => (
                 <TaskItem 
@@ -99,6 +98,7 @@ export const TasksList: React.FC<TTodoListPropsType> = ({ selectedCategory }) =>
                 />
             ))
         }
+        {loading && <MyLoader />}
     </TaskList>
   )
 }
